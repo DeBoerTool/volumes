@@ -2,6 +2,7 @@
 
 namespace Dbt\Volumes\Dimensions;
 
+use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 
@@ -47,5 +48,20 @@ class Volume implements VolumetricDim
     public function toMm3 (): VolumetricDim
     {
         return $this->unit::toMm3($this);
+    }
+
+    /**
+     * @throws \Dbt\Volumes\Common\Exceptions\WrongUnit
+     */
+    public function plus (VolumetricDim $addend): VolumetricDim
+    {
+        if (gettype($addend->unit()) !== gettype($this->unit())) {
+            throw new WrongUnit();
+        }
+
+        return new Volume(
+            $this->value() + $addend->value(),
+            $this->unit()
+        );
     }
 }

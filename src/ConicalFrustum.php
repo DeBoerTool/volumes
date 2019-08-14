@@ -4,13 +4,13 @@ namespace Dbt\Volumes;
 
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\RadialDim;
-use Dbt\Volumes\Common\Interfaces\VolumeCalculator;
+use Dbt\Volumes\Common\Interfaces\Solid;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Units\CubicMillimeter;
 
-class ConicalFrustum implements VolumeCalculator
+class ConicalFrustum implements Solid
 {
     /** @var \Dbt\Volumes\Common\Interfaces\RadialDim */
     private $top;
@@ -39,7 +39,7 @@ class ConicalFrustum implements VolumeCalculator
     }
 
     /**
-     * Formula: V = (1/3) * π * h * (r12 + r22 + (r1 * r2))
+     * Formula: V = ⅓ * π * h * (r₁² + r₂² + (r₁ * r₂))
      */
     protected function calculate (): float
     {

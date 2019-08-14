@@ -2,7 +2,7 @@
 
 namespace Dbt\Volumes\Common\Interfaces;
 
-interface VolumeCalculator
+interface Solid
 {
     public function volume (?VolumetricUnit $unit = null): VolumetricDim;
 }

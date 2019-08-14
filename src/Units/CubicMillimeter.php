@@ -12,6 +12,12 @@ class CubicMillimeter extends VolumetricUnit
     /** @var string */
     protected $postfix = 'mm3';
 
+    /** @var string */
+    protected $name = 'cubic millimeter';
+
+    /** @var string */
+    protected $base = Millimeter::class;
+
     public static function toIn3 (VolumetricDim $dim): VolumetricDim
     {
         $value = $dim->value() / Conversion::MM2_IN3;

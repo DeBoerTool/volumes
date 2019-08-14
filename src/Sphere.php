@@ -10,34 +10,30 @@ use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Units\CubicMillimeter;
 
-class Cylinder implements Solid
+class Sphere implements Solid
 {
     /** @var \Dbt\Volumes\Common\Interfaces\RadialDim */
     private $radius;
 
-    /** @var \Dbt\Volumes\Common\Interfaces\LinearDim */
-    private $height;
-
-    public function __construct (RadialDim $radial, LinearDim $height)
+    public function __construct (RadialDim $radial)
     {
-        $this->radius = $radial->radius()->toMm();
-        $this->height = $height->toMm();
+        $this->radius = $radial->radius();
     }
 
     public function volume (?VolumetricUnit $unit = null): VolumetricDim
     {
         $unit = $unit ?? new CubicMillimeter();
 
-        return new Volume(
-            $unit::fromBase($this->calculate()),
-            $unit
-        );
+        return new Volume($this->calculate(), $unit);
     }
 
+    /**
+     * Formula: (4/3) * π * r³
+     */
     protected function calculate (): float
     {
-        return pi()
-            * pow($this->radius->value(), 2)
-            * $this->height->value();
+        return (4 / 3)
+            * pi()
+            * pow($this->radius->value(), 3);
     }
 }

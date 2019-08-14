@@ -12,6 +12,12 @@ class CubicInch extends VolumetricUnit
     /** @var string */
     protected $postfix = 'in3';
 
+    /** @var string */
+    protected $name = 'cubic inch';
+
+    /** @var string */
+    protected $base = Inch::class;
+
     public static function toIn3 (VolumetricDim $dim): VolumetricDim
     {
         return $dim;
