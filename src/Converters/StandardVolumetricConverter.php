@@ -2,9 +2,10 @@
 
 namespace Dbt\Volumes\Converters;
 
+use Dbt\Volumes\Common\Abstracts\AbstractVolumetricConverter;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim as Dim;
 
-final class StandardVolumetricConverter extends VolumetricConverter
+final class StandardVolumetricConverter extends AbstractVolumetricConverter
 {
     public const IN_MM = 25.4;
 
