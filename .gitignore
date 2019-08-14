@@ -6,3 +6,4 @@ reports
 .idea/
 phpunit.*.xml
 phpunit.xml
+*.cache
