@@ -4,13 +4,16 @@ namespace Dbt\Volumes\Common\Abstracts;
 
 use Closure;
 use Dbt\Volumes\Common\Exceptions\NoConversionFound;
-use Dbt\Volumes\Common\Interfaces\VolumetricConverter;
-use Dbt\Volumes\Common\Interfaces\VolumetricDim as Dim;
-use Dbt\Volumes\Common\Interfaces\VolumetricUnit as Unit;
-use Dbt\Volumes\Dimensions\Volume;
+use Dbt\Volumes\Common\Interfaces\LinearConverter;
+use Dbt\Volumes\Common\Interfaces\LinearDim as Dim;
+use Dbt\Volumes\Common\Interfaces\LinearUnit as Unit;
+use Dbt\Volumes\Dimensions\Line;
 
-abstract class AbstractVolumetricConverter extends AbstractConverter implements VolumetricConverter
+abstract class AbstractLinearConverter extends AbstractConverter implements LinearConverter
 {
+    /** @var array */
+    private $list;
+
     public function __construct (array $list)
     {
         parent::__construct($list);
@@ -23,7 +26,7 @@ abstract class AbstractVolumetricConverter extends AbstractConverter implements 
     {
         $converter = $this->lookup($dim->unit(), $to);
 
-        return new Volume($converter($dim), $to);
+        return new Line($converter($dim), $to);
     }
 
     /**

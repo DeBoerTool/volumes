@@ -2,12 +2,12 @@
 
 namespace Dbt\Volumes\Units;
 
-use Dbt\Volumes\Common\Abstracts\LinearUnit;
+use Dbt\Volumes\Common\Abstracts\AbstractLinearUnit;
 use Dbt\Volumes\Common\Conversion;
 use Dbt\Volumes\Common\Interfaces\LinearDim as Dimension;
 use Dbt\Volumes\Dimensions\Line;
 
-class Inch extends LinearUnit
+class Inch extends AbstractLinearUnit
 {
     /** @var string */
     protected $postfix = '"';

@@ -2,12 +2,12 @@
 
 namespace Dbt\Volumes\Units;
 
-use Dbt\Volumes\Common\Abstracts\VolumetricUnit;
+use Dbt\Volumes\Common\Abstracts\AbstractVolumetricUnit;
 use Dbt\Volumes\Common\Conversion;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Dimensions\Volume;
 
-class CubicMillimeter extends VolumetricUnit
+class CubicMillimeter extends AbstractVolumetricUnit
 {
     /** @var string */
     protected $postfix = 'mm3';

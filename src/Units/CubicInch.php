@@ -2,12 +2,12 @@
 
 namespace Dbt\Volumes\Units;
 
-use Dbt\Volumes\Common\Abstracts\VolumetricUnit;
+use Dbt\Volumes\Common\Abstracts\AbstractVolumetricUnit;
 use Dbt\Volumes\Common\Conversion;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Dimensions\Volume;
 
-class CubicInch extends VolumetricUnit
+class CubicInch extends AbstractVolumetricUnit
 {
     /** @var string */
     protected $postfix = 'in3';
