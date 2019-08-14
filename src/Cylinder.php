@@ -5,11 +5,7 @@ namespace Dbt\Volumes;
 use Dbt\Volumes\Common\Abstracts\AbstractSolid;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\RadialDim;
-use Dbt\Volumes\Common\Interfaces\Solid;
-use Dbt\Volumes\Common\Interfaces\VolumetricDim;
-use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
-use Dbt\Volumes\Converters\StandardVolumetricConverter;
-use Dbt\Volumes\Dimensions\Volume;
+use Dbt\Volumes\Common\Interfaces\VolumetricConverter;
 
 class Cylinder extends AbstractSolid
 {
@@ -21,26 +17,13 @@ class Cylinder extends AbstractSolid
 
     public function __construct (
         RadialDim $radial,
-        LinearDim $height
-    )
-    {
+        LinearDim $height,
+        VolumetricConverter $converter = null
+    ) {
         $this->radius = $radial->radius()->toMm();
         $this->height = $height->toMm();
-    }
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
-     */
-    public function volume (?VolumetricUnit $unit = null): VolumetricDim
-    {
-        if (!$unit) {
-            return $this->volumeAtBaseUnit();
-        }
-
-        return StandardVolumetricConverter::make()->convert(
-            $this->volumeAtBaseUnit(),
-            $unit
-        );
+        parent::__construct($converter);
     }
 
     protected function calculate (): float

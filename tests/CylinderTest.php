@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace Dbt\Volumes\Tests;
 
@@ -44,7 +44,7 @@ class CylinderTest extends UnitTestCase
     public function using_two_different_units ()
     {
         $shape = new Cylinder(
-            new Diameter(2, new Inch()),
+            new Diameter(1, new Inch()),
             new Line(1, new Millimeter())
         );
 
@@ -52,18 +52,23 @@ class CylinderTest extends UnitTestCase
         $volumeInIn3 = $shape->volume(new CubicInch());
 
         $this->assertFloatEquals(
-            2026.8299163899,
+            506.7074790974,
             $volumeInMm3->value()
-        );
-
-        $this->assertFloatEquals(
-            2026.8299163899,
-            $volumeInIn3->value()
         );
 
         $this->assertInstanceOf(
             CubicMillimeter::class,
             $volumeInMm3->unit()
+        );
+
+        $this->assertFloatEquals(
+            0.0309211875,
+            $volumeInIn3->value()
+        );
+
+        $this->assertInstanceOf(
+            CubicInch::class,
+            $volumeInIn3->unit()
         );
     }
 }

@@ -11,8 +11,7 @@ abstract class UnitTestCase extends TestCase
         float $actual,
         float $delta = 0.0000000001,
         string $message = ''
-    )
-    {
+    ) {
         $this->assertEquals($expected, $actual, $message, $delta);
     }
 }

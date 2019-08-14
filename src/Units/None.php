@@ -40,4 +40,14 @@ class None implements LinearUnit, VolumetricUnit
     {
         return new Volume($dim->value(), new CubicMillimeter());
     }
+
+    public function name (): string
+    {
+        return 'none';
+    }
+
+    public function getBaseLinearUnit (): LinearUnit
+    {
+        return $this;
+    }
 }

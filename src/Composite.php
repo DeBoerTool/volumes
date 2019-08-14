@@ -2,41 +2,25 @@
 
 namespace Dbt\Volumes;
 
+use Dbt\Volumes\Common\Abstracts\AbstractSolid;
 use Dbt\Volumes\Common\Interfaces\Model;
 use Dbt\Volumes\Common\Interfaces\Solid;
-use Dbt\Volumes\Common\Interfaces\VolumetricDim;
-use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
-use Dbt\Volumes\Dimensions\Volume;
-use Dbt\Volumes\Units\CubicMillimeter;
+use Dbt\Volumes\Common\Interfaces\VolumetricConverter as Converter;
 
-class Composite implements Solid, Model
+class Composite extends AbstractSolid implements Model
 {
     /** @var \Dbt\Volumes\Common\Interfaces\Solid[] */
     private $solids;
 
-    public function __construct ($solids)
+    public function __construct ($solids, Converter $converter = null)
     {
         if (is_array($solids)) {
             $this->pushMany($solids);
         } else {
             $this->push($solids);
         }
-    }
 
-    public function volume (?VolumetricUnit $unit = null): VolumetricDim
-    {
-        $unit = $unit ?? new CubicMillimeter();
-
-        $total = array_reduce(
-            $this->solids,
-            function (float $carry, Solid $solid) use ($unit) {
-                // Make sure all the volumes are in the same unit.
-                return $carry + $solid->volume($unit)->value();
-            },
-            0.0
-        );
-
-        return new Volume($total, $unit);
+        parent::__construct($converter);
     }
 
     public function pushMany (array $solids): void
@@ -54,5 +38,21 @@ class Composite implements Solid, Model
     public function pop (): Solid
     {
         return array_pop($this->solids);
+    }
+
+    protected function calculate (): float
+    {
+        $reducer = function (float $carry, Solid $solid): float {
+            return $carry + $solid->volumeAtBaseUnit()->value();
+        };
+
+        /** @var float $reduced */
+        $reduced = array_reduce(
+            $this->solids,
+            $reducer,
+            0.0
+        );
+
+        return $reduced;
     }
 }

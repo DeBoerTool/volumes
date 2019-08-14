@@ -9,7 +9,11 @@ use Dbt\Volumes\Dimensions\Line;
 
 class Inch extends LinearUnit
 {
+    /** @var string */
     protected $postfix = '"';
+
+    /** @var string */
+    protected $name = 'inch';
 
     public static function toIn (Dimension $dimension): Dimension
     {

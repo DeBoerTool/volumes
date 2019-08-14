@@ -7,7 +7,7 @@ use Dbt\Volumes\Common\Interfaces\VolumetricDim as Dim;
 
 final class StandardVolumetricConverter extends AbstractVolumetricConverter
 {
-    public const IN_MM = 25.4;
+    public const MM3_IN3 = 16387.064;
 
     public static function make (): self
     {
@@ -17,16 +17,16 @@ final class StandardVolumetricConverter extends AbstractVolumetricConverter
     public static function listing (): array
     {
         return [
-            'cubic inches' => [
-                'cubic millimeters' => function (Dim $dim) {
-                    return $dim->value() * self::IN_MM;
-                }
+            'cubic inch' => [
+                'cubic millimeter' => function (Dim $dim) {
+                    return $dim->value() * self::MM3_IN3;
+                },
             ],
-            'cubic millimeters' => [
-                'cubic inches' => function (Dim $dim) {
-                    return $dim->value() / self::IN_MM;
-                }
-            ]
+            'cubic millimeter' => [
+                'cubic inch' => function (Dim $dim) {
+                    return $dim->value() / self::MM3_IN3;
+                },
+            ],
         ];
     }
 }
