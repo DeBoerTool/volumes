@@ -13,6 +13,14 @@ abstract class AbstractConverter
         $this->list = $list;
     }
 
+    /** @return static */
+    public static function make ()
+    {
+        return new static(static::listing());
+    }
+
+    abstract public static function listing (): array;
+
     protected function exists (string $from, string $to): bool
     {
         return isset($this->list[$from][$to]);
