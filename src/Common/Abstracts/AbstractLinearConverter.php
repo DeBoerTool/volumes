@@ -4,21 +4,13 @@ namespace Dbt\Volumes\Common\Abstracts;
 
 use Closure;
 use Dbt\Volumes\Common\Exceptions\NoConversionFound;
-use Dbt\Volumes\Common\Interfaces\LinearConverter;
-use Dbt\Volumes\Common\Interfaces\LinearDim as Dim;
-use Dbt\Volumes\Common\Interfaces\LinearUnit as Unit;
+use Dbt\Volumes\Common\Interfaces\Converter;
+use Dbt\Volumes\Common\Interfaces\Dim as Dim;
+use Dbt\Volumes\Common\Interfaces\Unit as Unit;
 use Dbt\Volumes\Dimensions\Line;
 
-abstract class AbstractLinearConverter extends AbstractConverter implements LinearConverter
+abstract class AbstractLinearConverter extends AbstractConverter implements Converter
 {
-    /** @var array */
-    private $list;
-
-    public function __construct (array $list)
-    {
-        parent::__construct($list);
-    }
-
     /**
      * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
      */

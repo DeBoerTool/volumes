@@ -2,7 +2,7 @@
 
 namespace Dbt\Volumes\Common\Interfaces;
 
-interface LinearDim extends FloatingPointValue
+interface LinearDim extends Dim
 {
     public function unit (): LinearUnit;
     public function of (float $value): LinearDim;

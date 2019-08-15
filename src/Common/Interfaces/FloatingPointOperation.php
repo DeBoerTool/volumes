@@ -7,5 +7,5 @@ interface FloatingPointOperation
     /**
      * @return mixed
      */
-    public function perform (FloatingPointValue $value);
+    public function perform (Dim $value);
 }

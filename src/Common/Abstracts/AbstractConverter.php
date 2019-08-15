@@ -3,6 +3,10 @@
 namespace Dbt\Volumes\Common\Abstracts;
 
 use Closure;
+use Dbt\Volumes\Common\Exceptions\NoConversionFound;
+use Dbt\Volumes\Common\Interfaces\Dim;
+use Dbt\Volumes\Common\Interfaces\Solid;
+use Dbt\Volumes\Common\Interfaces\Unit;
 
 abstract class AbstractConverter
 {
@@ -13,13 +17,27 @@ abstract class AbstractConverter
         $this->list = $list;
     }
 
-    /** @return static */
-    public static function make ()
+    /**
+     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
+     */
+    public function convert (Dim $dim, Unit $to): Dim
     {
-        return new static(static::listing());
+        $converter = $this->lookup($dim->unit(), $to);
+
+        return $dim->of($converter($dim), $to);
     }
 
-    abstract public static function listing (): array;
+    /**
+     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
+     */
+    protected function lookup (Unit $from, Unit $to): Closure
+    {
+        if ($this->exists($from->name(), $to->name())) {
+            return $this->get($from->name(), $to->name());
+        }
+
+        throw NoConversionFound::of($from->name(), $to->name());
+    }
 
     protected function exists (string $from, string $to): bool
     {
