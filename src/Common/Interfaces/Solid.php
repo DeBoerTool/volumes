@@ -8,4 +8,5 @@ interface Solid
     public function volumeAtBaseUnit (): VolumetricDim;
     public function baseVolumetricUnit (): VolumetricUnit;
     public function baseLinearUnit (): LinearUnit;
+    public function baseAngularUnit (): AngularUnit;
 }

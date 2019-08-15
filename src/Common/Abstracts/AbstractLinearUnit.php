@@ -2,28 +2,8 @@
 
 namespace Dbt\Volumes\Common\Abstracts;
 
-use Dbt\Volumes\Common\Interfaces\LinearUnit as UnitInterface;
+use Dbt\Volumes\Common\Interfaces\LinearUnit;
 
-abstract class AbstractLinearUnit implements UnitInterface
+abstract class AbstractLinearUnit extends AbstractUnit implements LinearUnit
 {
-    /** @var string */
-    protected $postfix = '';
-
-    /** @var string */
-    protected $name = '';
-
-    public function postfix (): string
-    {
-        return $this->postfix;
-    }
-
-    public function name (): string
-    {
-        return $this->name;
-    }
-
-    public function __toString (): string
-    {
-        return $this->postfix();
-    }
 }

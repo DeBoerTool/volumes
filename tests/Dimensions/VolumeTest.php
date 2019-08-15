@@ -5,7 +5,9 @@ namespace Dbt\Volumes\Tests\Dimensions;
 use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Tests\UnitTestCase;
+use Dbt\Volumes\Units\CubicInch;
 use Dbt\Volumes\Units\CubicMillimeter;
+use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\None;
 
 class VolumeTest extends UnitTestCase

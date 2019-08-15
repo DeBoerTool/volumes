@@ -25,7 +25,7 @@ class Line implements LinearDim
      */
     public function of (float $value, $unit = null)
     {
-        return new self($value, $unit ?? $this->unit());
+        return new static($value, $unit ?? $this->unit());
     }
 
     public function value (): float
@@ -40,7 +40,12 @@ class Line implements LinearDim
 
     public function times (float $multiplier): LinearDim
     {
-        return new self($this->value() * $multiplier, $this->unit());
+        return $this->of($this->value() * $multiplier);
+    }
+
+    public function minus (LinearDim $dim): LinearDim
+    {
+        return $this->of($this->value() - $dim->value());
     }
 
     public function hasSameUnit (Dim $dim): bool

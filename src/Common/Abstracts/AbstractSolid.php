@@ -2,6 +2,8 @@
 
 namespace Dbt\Volumes\Common\Abstracts;
 
+use Dbt\Volumes\Common\Interfaces\AngularDim;
+use Dbt\Volumes\Common\Interfaces\AngularUnit;
 use Dbt\Volumes\Common\Interfaces\Converter as ConverterInterface;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
@@ -13,21 +15,19 @@ use Dbt\Volumes\Converters\Converter;
 use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Units\CubicMillimeter;
 use Dbt\Volumes\Units\Millimeter;
+use Dbt\Volumes\Units\Radian;
 
 abstract class AbstractSolid implements Solid
 {
     /** @var ConverterInterface */
     protected $converter;
 
-    public function __construct (?ConverterInterface $converter)
+    public function setConverter (?ConverterInterface $converter): void
     {
         // Provide a default converter.
         $this->converter = $converter ?? new Converter(Conversions::listing());
     }
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
-     */
     public function volume (?VolumetricUnit $unit = null): VolumetricDim
     {
         if (!$unit) {
@@ -50,6 +50,11 @@ abstract class AbstractSolid implements Solid
         return new Millimeter();
     }
 
+    public function baseAngularUnit (): AngularUnit
+    {
+        return new Radian();
+    }
+
     public function volumeAtBaseUnit (): VolumetricDim
     {
         return new Volume($this->calculate(), $this->baseVolumetricUnit());
@@ -57,13 +62,18 @@ abstract class AbstractSolid implements Solid
 
     abstract protected function calculate (): float;
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
-     */
     protected function toBaseLinearUnit (LinearDim $dim): LinearDim
     {
         /** @var LinearDim $dim */
         $dim = $this->converter->convert($dim, $this->baseLinearUnit());
+
+        return $dim;
+    }
+
+    protected function toBaseAngularUnit (AngularDim $dim): AngularDim
+    {
+        /** @var AngularDim $dim */
+        $dim = $this->converter->convert($dim, $this->baseAngularUnit());
 
         return $dim;
     }

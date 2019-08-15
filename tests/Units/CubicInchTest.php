@@ -4,6 +4,7 @@ namespace Dbt\Volumes\Tests\Units;
 
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\CubicInch;
+use Dbt\Volumes\Units\Inch;
 
 class CubicInchTest extends UnitTestCase
 {
@@ -15,5 +16,16 @@ class CubicInchTest extends UnitTestCase
 
         $this->assertSame($expected, $unit->postfix());
         $this->assertSame($expected, (string) $unit);
+    }
+
+    /** @test */
+    public function getting_the_base_linear_unit ()
+    {
+        $unit = new CubicInch();
+
+        $this->assertInstanceOf(
+            Inch::class,
+            $unit->getBaseLinearUnit()
+        );
     }
 }

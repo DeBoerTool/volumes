@@ -10,9 +10,11 @@ use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\CubicInch;
 use Dbt\Volumes\Units\CubicMillimeter;
+use Dbt\Volumes\Units\Degree;
 use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\Millimeter;
 use Dbt\Volumes\Units\None;
+use Dbt\Volumes\Units\Radian;
 
 class ConverterTest extends UnitTestCase
 {
@@ -66,6 +68,20 @@ class ConverterTest extends UnitTestCase
         $this->assertSame(
             1.0,
             $mm3ToIn3(16387.064)
+        );
+
+        $radToDeg = $converter->lookup(new Radian(), new Degree());
+
+        $this->assertSame(
+            57.29577951308232,
+            $radToDeg(1.0)
+        );
+
+        $degToRad = $converter->lookup(new Degree(), new Radian());
+
+        $this->assertSame(
+            1.0,
+            $degToRad(57.29577951308232)
         );
 
         $noneToIn = $converter->lookup(new None(), new Inch());

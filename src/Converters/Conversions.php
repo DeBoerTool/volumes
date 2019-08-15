@@ -30,6 +30,16 @@ final class Conversions
                     return $value / self::MM3_IN3;
                 },
             ],
+            'radian' => [
+                'degree' => function (float $value): float {
+                    return $value * (180 / pi());
+                }
+            ],
+            'degree' => [
+                'radian' => function (float $value): float {
+                    return $value * (pi() / 180);
+                }
+            ],
             'none' => [
                 'inch' => function (float $value): float {
                     return $value;
@@ -41,6 +51,12 @@ final class Conversions
                     return $value;
                 },
                 'cubic millimeter' => function (float $value): float {
+                    return $value;
+                },
+                'radian' => function (float $value): float {
+                    return $value;
+                },
+                'degree' => function (float $value): float {
                     return $value;
                 },
             ],
