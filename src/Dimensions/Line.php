@@ -19,6 +19,14 @@ class Line implements LinearDim
         $this->unit = $unit;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function of (float $value, $unit = null)
+    {
+        return new self($value, $unit ?? $this->unit());
+    }
+
     public function value (): float
     {
         return $this->value;
@@ -29,23 +37,8 @@ class Line implements LinearDim
         return $this->unit;
     }
 
-    public function of (float $value): LinearDim
-    {
-        return new self($value, $this->unit());
-    }
-
     public function times (float $multiplier): LinearDim
     {
         return new self($this->value() * $multiplier, $this->unit());
-    }
-
-    public function toIn (): LinearDim
-    {
-        return $this->unit::toIn($this);
-    }
-
-    public function toMm (): LinearDim
-    {
-        return $this->unit::toMm($this);
     }
 }

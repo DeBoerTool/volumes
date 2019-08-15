@@ -4,5 +4,8 @@ namespace Dbt\Volumes\Common\Interfaces;
 
 interface Converter
 {
-    public function convert (Dim $dim, Unit $to): Dim;
+    /**
+     * @param \Dbt\Volumes\Common\Interfaces\VolumetricUnit|\Dbt\Volumes\Common\Interfaces\LinearUnit $to
+     */
+    public function convert (Dim $dim, $to): Dim;
 }

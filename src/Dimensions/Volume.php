@@ -20,6 +20,15 @@ class Volume implements VolumetricDim
         $this->unit = $unit;
     }
 
+    /**
+     * @param \Dbt\Volumes\Common\Interfaces\VolumetricUnit $unit
+     * @return \Dbt\Volumes\Common\Interfaces\VolumetricDim
+     */
+    public function of (float $value, $unit = null)
+    {
+        return new self($value, $unit ?? $this->unit());
+    }
+
     public function value (): float
     {
         return $this->value;
@@ -30,24 +39,9 @@ class Volume implements VolumetricDim
         return $this->unit;
     }
 
-    public function of (float $value): VolumetricDim
-    {
-        return new self($value, $this->unit());
-    }
-
     public function times (float $multiplier): VolumetricDim
     {
         return new self($this->value() * $multiplier, $this->unit());
-    }
-
-    public function toIn3 (): VolumetricDim
-    {
-        return $this->unit::toIn3($this);
-    }
-
-    public function toMm3 (): VolumetricDim
-    {
-        return $this->unit::toMm3($this);
     }
 
     /**

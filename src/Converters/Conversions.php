@@ -34,6 +34,12 @@ final class Conversions
                     return $value / self::MM3_IN3;
                 },
             ],
+            'none' => [
+                'inch' => function (float $value): float { return $value; },
+                'millimeter' => function (float $value): float { return $value; },
+                'cubic inch' => function (float $value): float { return $value; },
+                'cubic millimeter' => function (float $value): float { return $value; },
+            ]
         ];
     }
 }

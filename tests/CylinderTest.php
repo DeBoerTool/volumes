@@ -48,27 +48,27 @@ class CylinderTest extends UnitTestCase
             new Line(1, new Millimeter())
         );
 
-        $volumeInMm3 = $shape->volume();
-        $volumeInIn3 = $shape->volume(new CubicInch());
+        $mm3 = $shape->volume();
+        $in3 = $shape->volume(new CubicInch());
 
         $this->assertFloatEquals(
             506.7074790974,
-            $volumeInMm3->value()
+            $mm3->value()
         );
 
         $this->assertInstanceOf(
             CubicMillimeter::class,
-            $volumeInMm3->unit()
+            $mm3->unit()
         );
 
         $this->assertFloatEquals(
             0.0309211875,
-            $volumeInIn3->value()
+            $in3->value()
         );
 
         $this->assertInstanceOf(
             CubicInch::class,
-            $volumeInIn3->unit()
+            $in3->unit()
         );
     }
 }

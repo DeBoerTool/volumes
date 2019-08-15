@@ -1,14 +1,14 @@
 <?php
 
-namespace Dbt\Volumes\Common\Abstracts;
+namespace Dbt\Volumes\Converters;
 
 use Closure;
 use Dbt\Volumes\Common\Exceptions\NoConversionFound;
+use Dbt\Volumes\Common\Interfaces\Converter as ConverterInterface;
 use Dbt\Volumes\Common\Interfaces\Dim;
-use Dbt\Volumes\Common\Interfaces\Solid;
 use Dbt\Volumes\Common\Interfaces\Unit;
 
-abstract class AbstractConverter
+final class Converter implements ConverterInterface
 {
     protected $list;
 
@@ -18,13 +18,19 @@ abstract class AbstractConverter
     }
 
     /**
+     * @inheritDoc
      * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
      */
-    public function convert (Dim $dim, Unit $to): Dim
+    public function convert (Dim $dim, $unit): Dim
     {
-        $converter = $this->lookup($dim->unit(), $to);
+        // Don't convert a dimension that already has the desired unit.
+        if ($dim->unit()->name() === $unit->name()) {
+            return $dim;
+        }
 
-        return $dim->of($converter($dim), $to);
+        $converter = $this->lookup($dim->unit(), $unit);
+
+        return $dim->of($converter($dim->value()), $unit);
     }
 
     /**
