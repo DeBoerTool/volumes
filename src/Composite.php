@@ -3,14 +3,14 @@
 namespace Dbt\Volumes;
 
 use Dbt\Volumes\Common\Abstracts\AbstractSolid;
+use Dbt\Volumes\Common\Interfaces\Converter;
 use Dbt\Volumes\Common\Interfaces\Model;
 use Dbt\Volumes\Common\Interfaces\Solid;
-use Dbt\Volumes\Common\Interfaces\VolumetricConverter as Converter;
 
 class Composite extends AbstractSolid implements Model
 {
     /** @var \Dbt\Volumes\Common\Interfaces\Solid[] */
-    private $solids;
+    private $items;
 
     public function __construct ($solids, Converter $converter = null)
     {
@@ -30,14 +30,28 @@ class Composite extends AbstractSolid implements Model
         }
     }
 
+    /**
+     * Under the hood each solid uses base linear and volumetric units so
+     * there's no need to do any conversion here.
+     */
     public function push (Solid $solid): void
     {
-        $this->solids[] = $solid;
+        $this->items[] = $solid;
     }
 
     public function pop (): Solid
     {
-        return array_pop($this->solids);
+        return array_pop($this->items);
+    }
+
+    public function count (): int
+    {
+        return count($this->items);
+    }
+
+    public function all (): array
+    {
+        return $this->items;
     }
 
     protected function calculate (): float
@@ -48,7 +62,7 @@ class Composite extends AbstractSolid implements Model
 
         /** @var float $reduced */
         $reduced = array_reduce(
-            $this->solids,
+            $this->items,
             $reducer,
             0.0
         );

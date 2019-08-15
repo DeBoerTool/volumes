@@ -7,7 +7,7 @@ use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\Millimeter;
 
-class LinearTest extends UnitTestCase
+class LineTest extends UnitTestCase
 {
     /** @test */
     public function getting_the_value_and_unit ()
@@ -49,5 +49,17 @@ class LinearTest extends UnitTestCase
 
         $this->assertNotSame($vo1, $vo2);
         $this->assertSame($vo2->value(), $expected);
+    }
+
+    /** @test */
+    public function comparing_units ()
+    {
+        $line1 = new Line(1, new Millimeter());
+        $line2 = new Line(2, new Inch());
+        $line3 = new Line(3, new Millimeter());
+
+        $this->assertTrue($line1->hasSameUnit($line3));
+        $this->assertFalse($line1->hasSameUnit($line2));
+        $this->assertFalse($line2->hasSameUnit($line3));
     }
 }

@@ -15,5 +15,6 @@ class NoneTest extends UnitTestCase
 
         $this->assertSame($expected, $unit->postfix());
         $this->assertSame($expected, (string) $unit);
+        $this->assertSame($unit, $unit->getBaseLinearUnit());
     }
 }

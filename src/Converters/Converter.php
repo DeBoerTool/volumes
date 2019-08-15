@@ -34,9 +34,9 @@ final class Converter implements ConverterInterface
     }
 
     /**
-     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
+     * @inheritDoc
      */
-    protected function lookup (Unit $from, Unit $to): Closure
+    public function lookup (Unit $from, Unit $to): Closure
     {
         if ($this->exists($from->name(), $to->name())) {
             return $this->get($from->name(), $to->name());

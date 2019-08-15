@@ -3,6 +3,7 @@
 namespace Dbt\Volumes\Dimensions;
 
 use Dbt\Volumes\Common\Exceptions\WrongUnit;
+use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 
@@ -44,12 +45,17 @@ class Volume implements VolumetricDim
         return new self($this->value() * $multiplier, $this->unit());
     }
 
+    public function hasSameUnit (Dim $dim): bool
+    {
+        return $dim->unit()->name() === $this->unit()->name();
+    }
+
     /**
      * @throws \Dbt\Volumes\Common\Exceptions\WrongUnit
      */
     public function plus (VolumetricDim $addend): VolumetricDim
     {
-        if (gettype($addend->unit()) !== gettype($this->unit())) {
+        if (!$this->hasSameUnit($addend)) {
             throw new WrongUnit();
         }
 

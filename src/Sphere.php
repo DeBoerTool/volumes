@@ -3,8 +3,8 @@
 namespace Dbt\Volumes;
 
 use Dbt\Volumes\Common\Abstracts\AbstractSolid;
+use Dbt\Volumes\Common\Interfaces\Converter;
 use Dbt\Volumes\Common\Interfaces\RadialDim;
-use Dbt\Volumes\Common\Interfaces\VolumetricConverter as Converter;
 
 class Sphere extends AbstractSolid
 {
@@ -13,9 +13,8 @@ class Sphere extends AbstractSolid
 
     public function __construct (RadialDim $radial, Converter $converter = null)
     {
-        $this->radius = $radial->radius();
-
         parent::__construct($converter);
+        $this->radius = $radial->radius();
     }
 
     /**

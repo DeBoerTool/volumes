@@ -2,6 +2,7 @@
 
 namespace Dbt\Volumes\Dimensions;
 
+use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
 
@@ -40,5 +41,10 @@ class Line implements LinearDim
     public function times (float $multiplier): LinearDim
     {
         return new self($this->value() * $multiplier, $this->unit());
+    }
+
+    public function hasSameUnit (Dim $dim): bool
+    {
+        return $dim->unit()->name() === $this->unit()->name();
     }
 }

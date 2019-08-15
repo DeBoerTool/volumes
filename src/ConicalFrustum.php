@@ -3,9 +3,9 @@
 namespace Dbt\Volumes;
 
 use Dbt\Volumes\Common\Abstracts\AbstractSolid;
+use Dbt\Volumes\Common\Interfaces\Converter;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\RadialDim;
-use Dbt\Volumes\Common\Interfaces\VolumetricConverter as Converter;
 
 class ConicalFrustum extends AbstractSolid
 {
@@ -18,17 +18,20 @@ class ConicalFrustum extends AbstractSolid
     /** @var \Dbt\Volumes\Common\Interfaces\LinearDim */
     private $height;
 
+    /**
+     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
+     */
     public function __construct (
         RadialDim $top,
         RadialDim $bottom,
         LinearDim $height,
         Converter $converter = null
     ) {
-        $this->top = $top->radius();
-        $this->bottom = $bottom->radius();
-        $this->height = $height;
-
         parent::__construct($converter);
+
+        $this->top = $this->toBaseLinearUnit($top->radius());
+        $this->bottom = $this->toBaseLinearUnit($bottom->radius());
+        $this->height = $this->toBaseLinearUnit($height);
     }
 
     /**

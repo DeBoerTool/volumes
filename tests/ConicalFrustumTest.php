@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace Dbt\Volumes\Tests;
 
@@ -21,7 +21,7 @@ class ConicalFrustumTest extends UnitTestCase
         );
 
         $this->assertSame(
-            175.92918860102841,
+            175.9291886010,
             $shape->volume()->value()
         );
     }
