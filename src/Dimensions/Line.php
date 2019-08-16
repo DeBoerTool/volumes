@@ -65,6 +65,13 @@ class Line implements LinearDim
         return $this->of($this->value() - $dim->value());
     }
 
+    public function plus (LinearDim $dim): LinearDim
+    {
+        $this->assertSameUnit($dim);
+
+        return $this->of($this->value() + $dim->value());
+    }
+
     /*
      * Comparison
      */

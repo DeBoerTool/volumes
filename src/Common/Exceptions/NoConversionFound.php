@@ -6,6 +6,7 @@ use Exception;
 
 class NoConversionFound extends Exception
 {
+    /** @var string */
     public static $format = 'No conversion found for %s to %s';
 
     public static function of (string $from, string $to): self

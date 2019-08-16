@@ -26,6 +26,6 @@ class ConicalFrustumWithAngle extends AbstractConicalFrustum
         $opposite = new Line(tan($angle->value()), $this->baseLinearUnit());
 
         /** @var RadialDim $bottom */
-        $this->bottom = $this->top->minus($opposite);
+        $this->bottom = $this->top->plus($opposite);
     }
 }

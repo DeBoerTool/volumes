@@ -2,19 +2,16 @@
 
 namespace Dbt\Volumes\Common\Abstracts;
 
-use Dbt\Volumes\Common\Interfaces\LinearUnit as LinearUnitInterface;
-use Dbt\Volumes\Common\Interfaces\VolumetricUnit as UnitInterface;
+use Dbt\Volumes\Common\Interfaces\LinearUnit;
+use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 
-abstract class AbstractVolumetricUnit implements UnitInterface
+abstract class AbstractVolumetricUnit implements VolumetricUnit
 {
     /** @var string */
     protected $postfix = '';
 
     /** @var string */
     protected $name = '';
-
-    /** @var string */
-    protected $base = '';
 
     public function postfix (): string
     {
@@ -31,8 +28,5 @@ abstract class AbstractVolumetricUnit implements UnitInterface
         return $this->postfix();
     }
 
-    public function getBaseLinearUnit (): LinearUnitInterface
-    {
-        return new $this->base;
-    }
+    abstract public function getBaseLinearUnit (): LinearUnit;
 }

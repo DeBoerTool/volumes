@@ -10,8 +10,11 @@ use Dbt\Volumes\Common\Interfaces\Solid;
 class Composite extends AbstractSolid implements Model
 {
     /** @var \Dbt\Volumes\Common\Interfaces\Solid[] */
-    private $items;
+    private $items = [];
 
+    /**
+     * @param Solid|Solid[] $solids
+     */
     public function __construct ($solids, Converter $converter = null)
     {
         $this->setConverter($converter);

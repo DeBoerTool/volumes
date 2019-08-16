@@ -19,7 +19,10 @@ use Dbt\Volumes\Units\Radian;
 
 abstract class AbstractSolid implements Solid
 {
-    /** @var ConverterInterface */
+    /**
+     * @var ConverterInterface
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     protected $converter;
 
     public function setConverter (?ConverterInterface $converter): void

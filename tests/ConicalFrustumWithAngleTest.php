@@ -19,7 +19,7 @@ class ConicalFrustumWithAngleTest extends UnitTestCase
         $height = new Line(2, $unit);
         $angle = new Angle(3, $unit);
         /** @var \Dbt\Volumes\Common\Interfaces\RadialDim $bottom */
-        $bottom = $top->minus(new Radius(tan(3), $unit));
+        $bottom = $top->plus(new Radius(tan(3), $unit));
 
         $shape1 = new ConicalFrustum($top, $bottom, $height);
         $shape2 = new ConicalFrustumWithAngle($top, $height, $angle);

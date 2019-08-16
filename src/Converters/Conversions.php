@@ -33,12 +33,12 @@ final class Conversions
             'radian' => [
                 'degree' => function (float $value): float {
                     return $value * (180 / pi());
-                }
+                },
             ],
             'degree' => [
                 'radian' => function (float $value): float {
                     return $value * (pi() / 180);
-                }
+                },
             ],
             'none' => [
                 'inch' => function (float $value): float {

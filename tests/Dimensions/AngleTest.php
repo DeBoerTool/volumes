@@ -3,11 +3,8 @@
 namespace Dbt\Volumes\Tests\Dimensions;
 
 use Dbt\Volumes\Dimensions\Angle;
-use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\Degree;
-use Dbt\Volumes\Units\Inch;
-use Dbt\Volumes\Units\Millimeter;
 use Dbt\Volumes\Units\None;
 use Dbt\Volumes\Units\Radian;
 

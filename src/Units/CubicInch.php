@@ -3,6 +3,7 @@
 namespace Dbt\Volumes\Units;
 
 use Dbt\Volumes\Common\Abstracts\AbstractVolumetricUnit;
+use Dbt\Volumes\Common\Interfaces\LinearUnit;
 
 class CubicInch extends AbstractVolumetricUnit
 {
@@ -12,6 +13,8 @@ class CubicInch extends AbstractVolumetricUnit
     /** @var string */
     protected $name = 'cubic inch';
 
-    /** @var string */
-    protected $base = Inch::class;
+    public function getBaseLinearUnit (): LinearUnit
+    {
+        return new Inch();
+    }
 }

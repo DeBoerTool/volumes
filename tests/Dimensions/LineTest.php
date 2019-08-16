@@ -114,4 +114,31 @@ class LineTest extends UnitTestCase
 
         $vo1->lessThan($vo2);
     }
+
+    /** @test */
+    public function adding_immutably ()
+    {
+        $value1 = (float) rand(1, 99999);
+        $value2 = (float) rand(1, 99999);
+        $expected = $value1 + $value2;
+        $unit = new None();
+
+        $vo1 = new Line($value1, $unit);
+        $vo2 = new Line($value2, $unit);
+
+        $this->assertSame($expected, $vo1->plus($vo2)->value());
+        $this->assertNotSame($vo1, $vo1->plus($vo2));
+        $this->assertNotSame($vo2, $vo1->plus($vo2));
+    }
+
+    /** @test */
+    public function failing_to_add ()
+    {
+        $this->expectException(WrongUnit::class);
+
+        $vo1 = new Line(1.0, new Inch());
+        $vo2 = new Line(2.0, new Millimeter());
+
+        $vo1->plus($vo2);
+    }
 }
