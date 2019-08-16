@@ -47,4 +47,9 @@ class Angle implements AngularDim
     {
         return $dim->unit()->name() === $this->unit()->name();
     }
+
+    public function max (float $value): AngularDim
+    {
+        return $this->of(max($value, $this->value()));
+    }
 }

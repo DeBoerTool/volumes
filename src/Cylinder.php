@@ -15,15 +15,12 @@ class Cylinder extends AbstractSolid
     /** @var \Dbt\Volumes\Common\Interfaces\LinearDim */
     private $height;
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
-     */
     public function __construct (
         RadialDim $radial,
         LinearDim $height,
         Converter $converter = null
     ) {
-        parent::__construct($converter);
+        $this->setConverter($converter);
 
         $this->radius = $this->toBaseLinearUnit($radial->radius());
         $this->height = $this->toBaseLinearUnit($height);

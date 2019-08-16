@@ -13,7 +13,8 @@ class Sphere extends AbstractSolid
 
     public function __construct (RadialDim $radial, Converter $converter = null)
     {
-        parent::__construct($converter);
+        $this->setConverter($converter);
+
         $this->radius = $radial->radius();
     }
 

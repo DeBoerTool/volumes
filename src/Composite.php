@@ -14,13 +14,13 @@ class Composite extends AbstractSolid implements Model
 
     public function __construct ($solids, Converter $converter = null)
     {
+        $this->setConverter($converter);
+
         if (is_array($solids)) {
             $this->pushMany($solids);
         } else {
             $this->push($solids);
         }
-
-        parent::__construct($converter);
     }
 
     public function pushMany (array $solids): void

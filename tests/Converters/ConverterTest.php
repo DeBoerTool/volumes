@@ -111,5 +111,19 @@ class ConverterTest extends UnitTestCase
             1.0,
             $noneToMm3(1.0)
         );
+
+        $noneToRad = $converter->lookup(new None(), new Radian());
+
+        $this->assertSame(
+            1.0,
+            $noneToRad(1.0)
+        );
+
+        $noneToDeg = $converter->lookup(new None(), new Degree());
+
+        $this->assertSame(
+            1.0,
+            $noneToDeg(1.0)
+        );
     }
 }

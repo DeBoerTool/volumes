@@ -11,4 +11,5 @@ interface AngularDim extends Dim
      * @return \Dbt\Volumes\Common\Interfaces\AngularDim
      */
     public function of (float $value, $unit);
+    public function max (float $value): AngularDim;
 }

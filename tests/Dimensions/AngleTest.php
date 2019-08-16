@@ -2,21 +2,24 @@
 
 namespace Dbt\Volumes\Tests\Dimensions;
 
+use Dbt\Volumes\Dimensions\Angle;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
+use Dbt\Volumes\Units\Degree;
 use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\Millimeter;
 use Dbt\Volumes\Units\None;
+use Dbt\Volumes\Units\Radian;
 
-class LineTest extends UnitTestCase
+class AngleTest extends UnitTestCase
 {
     /** @test */
     public function getting_the_value_and_unit ()
     {
         $value = (float) rand(1, 999);
-        $unit = new Millimeter();
+        $unit = new Degree();
 
-        $vo = new Line($value, $unit);
+        $vo = new Angle($value, $unit);
 
         $this->assertSame($value, $vo->value());
         $this->assertSame($unit, $vo->unit());
@@ -25,13 +28,13 @@ class LineTest extends UnitTestCase
     /** @test */
     public function comparing_units ()
     {
-        $line1 = new Line(1, new Millimeter());
-        $line2 = new Line(2, new Inch());
-        $line3 = new Line(3, new Millimeter());
+        $angle1 = new Angle(1, new Degree());
+        $angle2 = new Angle(2, new Radian());
+        $angle3 = new Angle(3, new Degree());
 
-        $this->assertTrue($line1->hasSameUnit($line3));
-        $this->assertFalse($line1->hasSameUnit($line2));
-        $this->assertFalse($line2->hasSameUnit($line3));
+        $this->assertTrue($angle1->hasSameUnit($angle3));
+        $this->assertFalse($angle1->hasSameUnit($angle2));
+        $this->assertFalse($angle2->hasSameUnit($angle3));
     }
 
     /** @test */
@@ -39,9 +42,9 @@ class LineTest extends UnitTestCase
     {
         $value1 = (float) rand(1, 99999);
         $value2 = (float) rand(1, 99999);
-        $unit = new Millimeter();
+        $unit = new Degree();
 
-        $vo1 = new Line($value1, $unit);
+        $vo1 = new Angle($value1, $unit);
         $vo2 = $vo1->of($value2);
 
         $this->assertSame($unit, $vo2->unit());
@@ -55,9 +58,9 @@ class LineTest extends UnitTestCase
         $value = (float) rand(1, 99999);
         $multiplier = 2;
         $expected = $value * 2;
-        $unit = new Millimeter();
+        $unit = new Degree();
 
-        $vo1 = new Line($value, $unit);
+        $vo1 = new Angle($value, $unit);
         $vo2 = $vo1->times($multiplier);
 
         $this->assertNotSame($vo1, $vo2);
@@ -72,8 +75,8 @@ class LineTest extends UnitTestCase
         $negative = -$value;
         $max = 0.0;
 
-        $voPos = new Line($positive, new None());
-        $voNeg = new Line($negative, new None());
+        $voPos = new Angle($positive, new None());
+        $voNeg = new Angle($negative, new None());
 
         $this->assertSame(
             $value,
@@ -82,6 +85,11 @@ class LineTest extends UnitTestCase
 
         $this->assertSame(
             0.0,
+            $voNeg->max($max)->value()
+        );
+
+        $this->assertNotSame(
+            $voNeg,
             $voNeg->max($max)->value()
         );
     }

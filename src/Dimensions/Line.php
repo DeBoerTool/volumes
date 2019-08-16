@@ -38,6 +38,15 @@ class Line implements LinearDim
         return $this->unit;
     }
 
+    public function hasSameUnit (Dim $dim): bool
+    {
+        return $dim->unit()->name() === $this->unit()->name();
+    }
+
+    /*
+     * Math
+     */
+
     public function times (float $multiplier): LinearDim
     {
         return $this->of($this->value() * $multiplier);
@@ -48,8 +57,8 @@ class Line implements LinearDim
         return $this->of($this->value() - $dim->value());
     }
 
-    public function hasSameUnit (Dim $dim): bool
+    public function max (float $value): LinearDim
     {
-        return $dim->unit()->name() === $this->unit()->name();
+        return $this->of(max($value, $this->value()));
     }
 }
