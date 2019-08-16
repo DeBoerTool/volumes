@@ -2,6 +2,7 @@
 
 namespace Dbt\Volumes\Dimensions;
 
+use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
@@ -52,13 +53,37 @@ class Line implements LinearDim
         return $this->of($this->value() * $multiplier);
     }
 
-    public function minus (LinearDim $dim): LinearDim
-    {
-        return $this->of($this->value() - $dim->value());
-    }
-
     public function max (float $value): LinearDim
     {
         return $this->of(max($value, $this->value()));
+    }
+
+    public function minus (LinearDim $dim): LinearDim
+    {
+        $this->assertSameUnit($dim);
+
+        return $this->of($this->value() - $dim->value());
+    }
+
+    /*
+     * Comparison
+     */
+
+    public function lessThan (LinearDim $dim): bool
+    {
+        $this->assertSameUnit($dim);
+
+        return $this->value() < $dim->value();
+    }
+
+    /*
+     * Assertions
+     */
+
+    private function assertSameUnit (LinearDim $dim): void
+    {
+        if (!$this->hasSameUnit($dim)) {
+            throw new WrongUnit();
+        }
     }
 }

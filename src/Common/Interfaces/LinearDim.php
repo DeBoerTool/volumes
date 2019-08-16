@@ -8,6 +8,7 @@ interface LinearDim extends Dim
     public function times (float $multiplier): LinearDim;
     public function minus (LinearDim $dim): LinearDim;
     public function max (float $value): LinearDim;
+    public function lessThan (LinearDim $dim): bool;
 
     /**
      * @param \Dbt\Volumes\Common\Interfaces\LinearUnit|null $unit

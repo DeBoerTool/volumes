@@ -2,6 +2,7 @@
 
 namespace Dbt\Volumes\Tests\Dimensions;
 
+use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\Inch;
@@ -84,5 +85,33 @@ class LineTest extends UnitTestCase
             0.0,
             $voNeg->max($max)->value()
         );
+    }
+
+    /** @test */
+    public function comparing ()
+    {
+        $lower = (float) rand(1, 99);
+        $upper = (float) rand(100, 199);
+        $unit = new None();
+
+        $vo1 = new Line($lower, $unit);
+        $vo2 = new Line($upper, $unit);
+
+        $this->assertTrue($vo1->lessThan($vo2));
+        $this->assertFalse($vo2->lessThan($vo1));
+    }
+
+    /** @test */
+    public function failing_to_compare ()
+    {
+        $this->expectException(WrongUnit::class);
+
+        $lower = (float) rand(1, 99);
+        $upper = (float) rand(100, 199);
+
+        $vo1 = new Line($lower, new Inch());
+        $vo2 = new Line($upper, new Millimeter());
+
+        $vo1->lessThan($vo2);
     }
 }
