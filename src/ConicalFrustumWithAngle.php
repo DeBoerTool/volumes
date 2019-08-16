@@ -22,8 +22,12 @@ class ConicalFrustumWithAngle extends AbstractConicalFrustum
         $this->top = $this->toBaseLinearUnit($top->radius());
         $this->height = $this->toBaseLinearUnit($height);
 
-        $angle = $this->toBaseAngularUnit($angle);
-        $opposite = new Line(tan($angle->value()), $this->baseLinearUnit());
+        $radians = $this->toBaseAngularUnit($angle);
+
+        $opposite = new Line(
+            tan($radians->value()) * $this->height->value(),
+            $this->baseLinearUnit()
+        );
 
         /** @var RadialDim $bottom */
         $this->bottom = $this->top->plus($opposite);
