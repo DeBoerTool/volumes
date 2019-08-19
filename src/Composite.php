@@ -72,4 +72,20 @@ class Composite extends AbstractSolid implements Model
 
         return $reduced;
     }
+
+    protected function calculateArea (): float
+    {
+        $reducer = function (float $carry, Solid $solid): float {
+            return $carry + $solid->areaAtBaseUnit()->value();
+        };
+
+        /** @var float $reduced */
+        $reduced = array_reduce(
+            $this->items,
+            $reducer,
+            0.0
+        );
+
+        return $reduced;
+    }
 }

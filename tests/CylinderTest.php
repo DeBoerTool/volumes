@@ -41,6 +41,22 @@ class CylinderTest extends UnitTestCase
     }
 
     /** @test */
+    public function getting_the_cross_sectional_area ()
+    {
+        $unit = new None();
+
+        $shape = new Cylinder(
+            new Diameter(10.0, $unit),
+            new Line(5.0, $unit)
+        );
+
+        $this->assertFloatEquals(
+            50.0,
+            $shape->area()->value()
+        );
+    }
+
+    /** @test */
     public function using_two_different_units ()
     {
         $shape = new Cylinder(

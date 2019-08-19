@@ -3,7 +3,10 @@
 namespace Dbt\Volumes\Tests;
 
 use Dbt\Volumes\Composite;
-use Dbt\Volumes\Converters\Conversions;
+use Dbt\Volumes\Converters\Formulary;
+use Dbt\Volumes\Cylinder;
+use Dbt\Volumes\Dimensions\Diameter;
+use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Dimensions\Radius;
 use Dbt\Volumes\Sphere;
 use Dbt\Volumes\Units\CubicInch;
@@ -35,6 +38,35 @@ class CompositeTest extends UnitTestCase
             $comp->volume()->value()
         );
     }
+    /** @test */
+    public function getting_the_axial_area_of_multiple_shapes ()
+    {
+        $unit = new Inch();
+
+        $shape1 = new Cylinder(
+            new Diameter(1, $unit),
+            new Line(1, $unit)
+        );
+        $shape2 = new Cylinder(
+            new Diameter(2, $unit),
+            new Line(2, $unit)
+        );
+
+        $comp = new Composite([$shape1]);
+
+        $this->assertFloatEquals(
+            $shape1->area()->value(),
+            $comp->area()->value()
+        );
+
+        $comp->push($shape2);
+        $combined = $shape1->area()->plus($shape2->area());
+
+        $this->assertFloatEquals(
+            $combined->value(),
+            $comp->area()->value()
+        );
+    }
 
     /** @test */
     public function getting_the_volume_in_non_base_unit ()
@@ -50,7 +82,7 @@ class CompositeTest extends UnitTestCase
         );
 
         $this->assertFloatEquals(
-            $shape->volume()->value() / Conversions::MM3_IN3,
+            $shape->volume()->value() / Formulary::MM3_IN3,
             $comp->volume(new CubicInch())->value()
         );
     }

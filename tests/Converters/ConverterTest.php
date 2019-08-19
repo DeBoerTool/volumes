@@ -4,7 +4,7 @@ namespace Dbt\Volumes\Tests\Converters;
 
 use Dbt\Volumes\Common\Abstracts\AbstractLinearUnit;
 use Dbt\Volumes\Common\Exceptions\NoConversionFound;
-use Dbt\Volumes\Converters\Conversions;
+use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Converters\Converter;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
@@ -15,6 +15,8 @@ use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\Millimeter;
 use Dbt\Volumes\Units\None;
 use Dbt\Volumes\Units\Radian;
+use Dbt\Volumes\Units\SquareInch;
+use Dbt\Volumes\Units\SquareMillimeter;
 
 class ConverterTest extends UnitTestCase
 {
@@ -31,7 +33,7 @@ class ConverterTest extends UnitTestCase
             protected $name = 'flange';
         };
 
-        $converter = new Converter(Conversions::listing());
+        $converter = new Converter(Formulary::listing());
         $dim = new Line(1, new Inch());
 
         $converter->convert($dim, $nonstandardUnit);
@@ -40,7 +42,7 @@ class ConverterTest extends UnitTestCase
     /** @test */
     public function conversion_accuracy ()
     {
-        $converter = new Converter(Conversions::listing());
+        $converter = new Converter(Formulary::listing());
 
         $inToMm = $converter->lookup(new Inch(), new Millimeter());
 
@@ -54,6 +56,20 @@ class ConverterTest extends UnitTestCase
         $this->assertSame(
             1.0,
             $mmToIn(25.4)
+        );
+
+        $in2ToMm2 = $converter->lookup(new SquareInch(), new SquareMillimeter());
+
+        $this->assertSame(
+            645.16,
+            $in2ToMm2(1.0)
+        );
+
+        $mm2ToIn2 = $converter->lookup(new SquareMillimeter(), new SquareInch());
+
+        $this->assertSame(
+            1.0,
+            $mm2ToIn2(645.16)
         );
 
         $in3ToMm3 = $converter->lookup(new CubicInch(), new CubicMillimeter());

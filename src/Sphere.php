@@ -27,4 +27,9 @@ class Sphere extends AbstractSolid
             * pi()
             * pow($this->radius->value(), 3);
     }
+
+    protected function calculateArea (): float
+    {
+        return pi() * pow($this->radius->value(), 2);
+    }
 }

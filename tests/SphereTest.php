@@ -18,4 +18,15 @@ class SphereTest extends UnitTestCase
             $shape->volume()->value()
         );
     }
+
+    /** @test */
+    public function getting_the_area ()
+    {
+        $shape = new Sphere(new Radius(5.0, new None()));
+
+        $this->assertFloatEquals(
+            78.5398163397,
+            $shape->area()->value()
+        );
+    }
 }

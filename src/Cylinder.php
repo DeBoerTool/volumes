@@ -32,4 +32,13 @@ class Cylinder extends AbstractSolid
             * pow($this->radius->value(), 2)
             * $this->height->value();
     }
+
+    /**
+     * The central slice of a cylinder is just a rectangle.
+     */
+    protected function calculateArea (): float
+    {
+        return $this->radius->diameter()->value()
+            * $this->height->value();
+    }
 }

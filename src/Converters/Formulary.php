@@ -2,9 +2,10 @@
 
 namespace Dbt\Volumes\Converters;
 
-final class Conversions
+final class Formulary
 {
     public const MM_IN = 25.4;
+    public const MM2_IN2 = 645.16;
     public const MM3_IN3 = 16387.064;
 
     public static function listing (): array
@@ -18,6 +19,16 @@ final class Conversions
             'millimeter' => [
                 'inch' => function (float $value): float {
                     return $value / self::MM_IN;
+                },
+            ],
+            'square millimeter' => [
+                'square inch' => function (float $value): float {
+                    return $value / self::MM2_IN2;
+                },
+            ],
+            'square inch' => [
+                'square millimeter' => function (float $value): float {
+                    return $value * self::MM2_IN2;
                 },
             ],
             'cubic inch' => [

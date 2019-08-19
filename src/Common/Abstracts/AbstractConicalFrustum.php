@@ -2,6 +2,9 @@
 
 namespace Dbt\Volumes\Common\Abstracts;
 
+use Dbt\Volumes\Common\Interfaces\SquareDim;
+use Dbt\Volumes\Common\Interfaces\SquareUnit;
+
 abstract class AbstractConicalFrustum extends AbstractSolid
 {
     /** @var \Dbt\Volumes\Common\Interfaces\LinearDim */
@@ -25,6 +28,18 @@ abstract class AbstractConicalFrustum extends AbstractSolid
                 ($this->top->value() * $this->bottom->value())
                 + pow($this->top->value(), 2)
                 + pow($this->bottom->value(), 2)
+            );
+    }
+
+    protected function calculateArea (): float
+    {
+        return $this->height->value()
+            * (
+                (
+                    $this->top->diameter()->value()
+                    + $this->bottom->diameter()->value()
+                )
+                * 0.5
             );
     }
 }
