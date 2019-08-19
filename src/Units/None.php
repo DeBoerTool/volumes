@@ -4,9 +4,10 @@ namespace Dbt\Volumes\Units;
 
 use Dbt\Volumes\Common\Interfaces\AngularUnit;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
+use Dbt\Volumes\Common\Interfaces\SquareUnit;
 use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
 
-class None implements LinearUnit, VolumetricUnit, AngularUnit
+class None implements LinearUnit, VolumetricUnit, AngularUnit, SquareUnit
 {
     public function postfix (): string
     {

@@ -12,6 +12,7 @@ use Dbt\Volumes\Sphere;
 use Dbt\Volumes\Units\CubicInch;
 use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\None;
+use Dbt\Volumes\Units\SquareMillimeter;
 
 class CompositeTest extends UnitTestCase
 {
@@ -60,11 +61,18 @@ class CompositeTest extends UnitTestCase
         );
 
         $comp->push($shape2);
-        $combined = $shape1->area()->plus($shape2->area());
+        $areaInch = $shape1->area()->plus($shape2->area());
+        $areaMm = $shape1->area(new SquareMillimeter())
+            ->plus($shape2->area(new SquareMillimeter()));
 
         $this->assertFloatEquals(
-            $combined->value(),
+            $areaInch->value(),
             $comp->area()->value()
+        );
+
+        $this->assertFloatEquals(
+            $areaMm->value(),
+            $comp->area(new SquareMillimeter())->value()
         );
     }
 
