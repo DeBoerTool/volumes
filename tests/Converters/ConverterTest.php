@@ -4,8 +4,8 @@ namespace Dbt\Volumes\Tests\Converters;
 
 use Dbt\Volumes\Common\Abstracts\AbstractLinearUnit;
 use Dbt\Volumes\Common\Exceptions\NoConversionFound;
-use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Converters\Converter;
+use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\CubicInch;

@@ -2,9 +2,6 @@
 
 namespace Dbt\Volumes\Common\Abstracts;
 
-use Dbt\Volumes\Common\Interfaces\SquareDim;
-use Dbt\Volumes\Common\Interfaces\SquareUnit;
-
 abstract class AbstractConicalFrustum extends AbstractSolid
 {
     /** @var \Dbt\Volumes\Common\Interfaces\LinearDim */
