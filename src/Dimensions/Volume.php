@@ -64,4 +64,19 @@ class Volume implements VolumetricDim
             $this->unit()
         );
     }
+
+    /**
+     * @throws \Dbt\Volumes\Common\Exceptions\WrongUnit
+     */
+    public function minus (VolumetricDim $subtrahend): VolumetricDim
+    {
+        if (!$this->hasSameUnit($subtrahend)) {
+            throw new WrongUnit();
+        }
+
+        return new Volume(
+            $this->value() - $subtrahend->value(),
+            $this->unit()
+        );
+    }
 }

@@ -79,4 +79,41 @@ class VolumeTest extends UnitTestCase
 
         $vo1->plus($vo2);
     }
+
+    /** @test */
+    public function subtracting_immutably ()
+    {
+        $value1 = (float) rand(1, 999);
+        $value2 = (float) rand(1, 999);
+        $vo1 = new Volume($value1, new None());
+        $vo2 = new Volume($value2, new None());
+
+        $expected = $value1 - $value2;
+
+        $this->assertSame(
+            $expected,
+            $vo1->minus($vo2)->value()
+        );
+
+        $this->assertNotSame(
+            $vo1,
+            $vo1->minus($vo2)
+        );
+
+        $this->assertNotSame(
+            $vo2,
+            $vo1->minus($vo2)
+        );
+    }
+
+    /** @test */
+    public function failing_to_subtract_different_units ()
+    {
+        $this->expectException(WrongUnit::class);
+
+        $vo1 = new Volume(1.0, new None());
+        $vo2 = new Volume(1.0, new CubicMillimeter());
+
+        $vo1->minus($vo2);
+    }
 }

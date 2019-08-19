@@ -7,10 +7,8 @@ use Dbt\Volumes\ConicalFrustumWithAngle;
 use Dbt\Volumes\Dimensions\Angle;
 use Dbt\Volumes\Dimensions\Diameter;
 use Dbt\Volumes\Dimensions\Line;
-use Dbt\Volumes\Dimensions\Radius;
 use Dbt\Volumes\Units\Degree;
 use Dbt\Volumes\Units\Millimeter;
-use Dbt\Volumes\Units\Radian;
 
 class ConicalFrustumWithAngleTest extends UnitTestCase
 {

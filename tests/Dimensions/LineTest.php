@@ -141,4 +141,30 @@ class LineTest extends UnitTestCase
 
         $vo1->plus($vo2);
     }
+
+    /** @test */
+    public function subtracting_immutably ()
+    {
+        $value1 = (float) rand(1, 99999);
+        $value2 = (float) rand(1, 99999);
+        $vo1 = new Line($value1, new None());
+        $vo2 = new Line($value2, new None());
+
+        $expected = $value1 - $value2;
+
+        $this->assertSame($expected, $vo1->minus($vo2)->value());
+        $this->assertNotSame($vo1, $vo1->minus($vo2));
+        $this->assertNotSame($vo2, $vo1->minus($vo2));
+    }
+
+    /** @test */
+    public function failing_to_subtract ()
+    {
+        $this->expectException(WrongUnit::class);
+
+        $vo1 = new Line(1.0, new Inch());
+        $vo2 = new Line(2.0, new Millimeter());
+
+        $vo1->minus($vo2);
+    }
 }
