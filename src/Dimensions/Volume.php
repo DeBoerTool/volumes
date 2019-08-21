@@ -2,10 +2,10 @@
 
 namespace Dbt\Volumes\Dimensions;
 
-use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\VolumetricDim;
 use Dbt\Volumes\Common\Interfaces\VolumetricUnit;
+use Dbt\Volumes\Converters\Converter;
 
 class Volume implements VolumetricDim
 {
@@ -50,33 +50,37 @@ class Volume implements VolumetricDim
         return $dim->unit()->name() === $this->unit()->name();
     }
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\WrongUnit
-     */
-    public function plus (VolumetricDim $addend): VolumetricDim
+    public function plus (VolumetricDim ...$addends): VolumetricDim
     {
-        if (!$this->hasSameUnit($addend)) {
-            throw new WrongUnit();
+        $value = $this->value();
+
+        foreach ($addends as $addend) {
+            $converted = $addend->convert($this->unit());
+
+            $value = $value + $converted->value();
         }
 
-        return new Volume(
-            $this->value() + $addend->value(),
-            $this->unit()
-        );
+        return new self($value, $this->unit());
     }
 
-    /**
-     * @throws \Dbt\Volumes\Common\Exceptions\WrongUnit
-     */
-    public function minus (VolumetricDim $subtrahend): VolumetricDim
+    public function minus (VolumetricDim ...$subtrahends): VolumetricDim
     {
-        if (!$this->hasSameUnit($subtrahend)) {
-            throw new WrongUnit();
+        $value = $this->value();
+
+        foreach ($subtrahends as $subtrahend) {
+            $converted = $subtrahend->convert($this->unit);
+
+            $value = $value - $converted->value();
         }
 
-        return new Volume(
-            $this->value() - $subtrahend->value(),
-            $this->unit()
-        );
+        return new self($value, $this->unit());
+    }
+
+    public function convert (VolumetricUnit $unit): VolumetricDim
+    {
+        /** @var VolumetricDim $dim */
+        $dim = Converter::standard()->convert($this, $unit);
+
+        return $dim;
     }
 }

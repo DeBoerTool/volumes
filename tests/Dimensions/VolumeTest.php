@@ -2,9 +2,10 @@
 
 namespace Dbt\Volumes\Tests\Dimensions;
 
-use Dbt\Volumes\Common\Exceptions\WrongUnit;
+use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Tests\UnitTestCase;
+use Dbt\Volumes\Units\CubicInch;
 use Dbt\Volumes\Units\CubicMillimeter;
 use Dbt\Volumes\Units\None;
 
@@ -20,6 +21,24 @@ class VolumeTest extends UnitTestCase
 
         $this->assertSame($value, $vo->value());
         $this->assertSame($unit, $vo->unit());
+    }
+
+    /** @test */
+    public function converting_immutably ()
+    {
+        $value = (float) rand(1, 999);
+        $from = new CubicMillimeter();
+        $to = new CubicInch();
+
+        $vo = new Volume($value, $from);
+        $converted = $vo->convert($to);
+
+        $this->assertSame(
+            $value / Formulary::MM3_IN3,
+            $converted->value()
+        );
+
+        $this->assertNotSame($vo, $converted);
     }
 
     /** @test */
@@ -70,14 +89,17 @@ class VolumeTest extends UnitTestCase
     }
 
     /** @test */
-    public function failing_to_add_different_units ()
+    public function adding_with_automatic_conversion ()
     {
-        $this->expectException(WrongUnit::class);
-
-        $vo1 = new Volume(1.0, new None());
+        $vo1 = new Volume(1.0, new CubicInch());
         $vo2 = new Volume(1.0, new CubicMillimeter());
 
-        $vo1->plus($vo2);
+        $added = $vo1->plus($vo2);
+
+        $this->assertSame(
+            ($vo2->value() / Formulary::MM3_IN3) + $vo1->value(),
+            $added->value()
+        );
     }
 
     /** @test */
@@ -107,13 +129,16 @@ class VolumeTest extends UnitTestCase
     }
 
     /** @test */
-    public function failing_to_subtract_different_units ()
+    public function subtracting_with_automatic_conversion ()
     {
-        $this->expectException(WrongUnit::class);
-
-        $vo1 = new Volume(1.0, new None());
+        $vo1 = new Volume(1.0, new CubicInch());
         $vo2 = new Volume(1.0, new CubicMillimeter());
 
-        $vo1->minus($vo2);
+        $subtracted = $vo1->minus($vo2);
+
+        $this->assertSame(
+            $vo1->value() - ($vo2->value() / Formulary::MM3_IN3),
+            $subtracted->value()
+        );
     }
 }

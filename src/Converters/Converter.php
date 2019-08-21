@@ -17,6 +17,11 @@ final class Converter implements ConverterInterface
         $this->list = $list;
     }
 
+    public static function standard ()
+    {
+        return new self(Formulary::listing());
+    }
+
     /**
      * @inheritDoc
      * @throws \Dbt\Volumes\Common\Exceptions\NoConversionFound
