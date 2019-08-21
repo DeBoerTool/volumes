@@ -3,6 +3,7 @@
 namespace Dbt\Volumes\Tests\Dimensions;
 
 use Dbt\Volumes\Common\Exceptions\WrongUnit;
+use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\Inch;
@@ -21,6 +22,23 @@ class LineTest extends UnitTestCase
 
         $this->assertSame($value, $vo->value());
         $this->assertSame($unit, $vo->unit());
+    }
+
+    /** @test */
+    public function converting_immutably ()
+    {
+        $from = new Millimeter();
+        $to = new Inch();
+
+        $mm = new Line(1, $from);
+        $in = $mm->convert($to);
+
+        $this->assertSame(
+            $mm->value() / Formulary::MM_IN,
+            $in->value()
+        );
+
+        $this->assertNotSame($mm, $in);
     }
 
     /** @test */
@@ -102,20 +120,6 @@ class LineTest extends UnitTestCase
     }
 
     /** @test */
-    public function failing_to_compare ()
-    {
-        $this->expectException(WrongUnit::class);
-
-        $lower = (float) rand(1, 99);
-        $upper = (float) rand(100, 199);
-
-        $vo1 = new Line($lower, new Inch());
-        $vo2 = new Line($upper, new Millimeter());
-
-        $vo1->lessThan($vo2);
-    }
-
-    /** @test */
     public function adding_immutably ()
     {
         $value1 = (float) rand(1, 99999);
@@ -132,14 +136,17 @@ class LineTest extends UnitTestCase
     }
 
     /** @test */
-    public function failing_to_add ()
+    public function adding_with_automatic_conversion ()
     {
-        $this->expectException(WrongUnit::class);
-
         $vo1 = new Line(1.0, new Inch());
-        $vo2 = new Line(2.0, new Millimeter());
+        $vo2 = new Line(1.0, new Millimeter());
 
-        $vo1->plus($vo2);
+        $result = $vo1->plus($vo2);
+
+        $this->assertSame(
+            $vo1->value() + ($vo2->value() / Formulary::MM_IN),
+            $result->value()
+        );
     }
 
     /** @test */
@@ -157,14 +164,19 @@ class LineTest extends UnitTestCase
         $this->assertNotSame($vo2, $vo1->minus($vo2));
     }
 
+
+
     /** @test */
-    public function failing_to_subtract ()
+    public function subtracting_with_automatic_conversion ()
     {
-        $this->expectException(WrongUnit::class);
-
         $vo1 = new Line(1.0, new Inch());
-        $vo2 = new Line(2.0, new Millimeter());
+        $vo2 = new Line(1.0, new Millimeter());
 
-        $vo1->minus($vo2);
+        $result = $vo1->minus($vo2);
+
+        $this->assertSame(
+            $vo1->value() - ($vo2->value() / Formulary::MM_IN),
+            $result->value()
+        );
     }
 }

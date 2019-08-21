@@ -6,6 +6,7 @@ use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
+use Dbt\Volumes\Converters\Converter;
 
 class Line implements LinearDim
 {
@@ -58,18 +59,30 @@ class Line implements LinearDim
         return $this->of(max($value, $this->value()));
     }
 
-    public function minus (LinearDim $dim): LinearDim
+    public function minus (LinearDim ...$subtrahends): LinearDim
     {
-        $this->assertSameUnit($dim);
+        $value = $this->value();
 
-        return $this->of($this->value() - $dim->value());
+        foreach ($subtrahends as $subtrahend) {
+            $converted = $subtrahend->convert($this->unit());
+
+            $value -= $converted->value();
+        }
+
+        return $this->of($value);
     }
 
-    public function plus (LinearDim $dim): LinearDim
+    public function plus (LinearDim ...$addends): LinearDim
     {
-        $this->assertSameUnit($dim);
+        $value = $this->value();
 
-        return $this->of($this->value() + $dim->value());
+        foreach ($addends as $addend) {
+            $converted = $addend->convert($this->unit());
+
+            $value += $converted->value();
+        }
+
+        return $this->of($value);
     }
 
     /*
@@ -78,19 +91,20 @@ class Line implements LinearDim
 
     public function lessThan (LinearDim $dim): bool
     {
-        $this->assertSameUnit($dim);
+        $converted = $dim->convert($this->unit());
 
-        return $this->value() < $dim->value();
+        return $this->value() < $converted->value();
     }
 
     /*
-     * Assertions
+     * Other
      */
 
-    private function assertSameUnit (LinearDim $dim): void
+    public function convert (LinearUnit $unit): LinearDim
     {
-        if (!$this->hasSameUnit($dim)) {
-            throw new WrongUnit();
-        }
+        /** @var LinearDim $dim */
+        $dim = Converter::standard()->convert($this, $unit);
+
+        return $dim;
     }
 }
