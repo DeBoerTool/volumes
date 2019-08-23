@@ -2,7 +2,6 @@
 
 namespace Dbt\Volumes\Dimensions;
 
-use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Common\Interfaces\Dim;
 use Dbt\Volumes\Common\Interfaces\LinearDim;
 use Dbt\Volumes\Common\Interfaces\LinearUnit;
@@ -106,5 +105,15 @@ class Line implements LinearDim
         $dim = Converter::standard()->convert($this, $unit);
 
         return $dim;
+    }
+
+    public function toString (): string
+    {
+        return (string) $this->value();
+    }
+
+    public function __toString (): string
+    {
+        return $this->toString();
     }
 }

@@ -12,4 +12,6 @@ interface LinearDim extends Dim
     public function lessThan (LinearDim $dim): bool;
     public function of (float $value, $unit);
     public function convert (LinearUnit $unit): LinearDim;
+    public function toString (): string;
+    public function __toString (): string;
 }

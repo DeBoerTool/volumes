@@ -2,7 +2,6 @@
 
 namespace Dbt\Volumes\Tests\Dimensions;
 
-use Dbt\Volumes\Common\Exceptions\WrongUnit;
 use Dbt\Volumes\Converters\Formulary;
 use Dbt\Volumes\Dimensions\Line;
 use Dbt\Volumes\Tests\UnitTestCase;
@@ -178,5 +177,17 @@ class LineTest extends UnitTestCase
             $vo1->value() - ($vo2->value() / Formulary::MM_IN),
             $result->value()
         );
+    }
+
+    /** @test */
+    public function casting_to_a_string ()
+    {
+        $vo = new Line(1.0, new Inch());
+
+        $expected = '1';
+
+        $this->assertSame($expected, (string) $vo->value());
+        $this->assertSame($expected, (string) $vo);
+        $this->assertSame($expected, $vo->toString());
     }
 }
