@@ -7,6 +7,7 @@ use Dbt\Volumes\Dimensions\Volume;
 use Dbt\Volumes\Tests\UnitTestCase;
 use Dbt\Volumes\Units\CubicInch;
 use Dbt\Volumes\Units\CubicMillimeter;
+use Dbt\Volumes\Units\Inch;
 use Dbt\Volumes\Units\None;
 
 class VolumeTest extends UnitTestCase
@@ -39,6 +40,21 @@ class VolumeTest extends UnitTestCase
         );
 
         $this->assertNotSame($vo, $converted);
+    }
+
+    /** @test */
+    public function comparing_unit ()
+    {
+        $value = function () {
+            return (float) rand(1, 999);
+        };
+
+        $vo1 = new Volume($value(), new CubicInch());
+        $vo2 = new Volume($value(), new CubicInch());
+        $vo3 = new Volume($value(), new CubicMillimeter());
+
+        $this->assertTrue($vo1->hasSameUnit($vo2));
+        $this->assertFalse($vo1->hasSameUnit($vo3));
     }
 
     /** @test */

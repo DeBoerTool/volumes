@@ -17,7 +17,8 @@
     }
   ],
   "require": {
-    "php": "^7.1"
+    "php": "^7.1",
+    "dbt/resolver": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.15",
